@@ -1,0 +1,10 @@
+*~
+*.swp
+*.o
+moc_*
+*.zip
+*.rar
+*.7z
+*.tar
+*.bz2
+*.gz
