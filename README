@@ -1,3 +1,9 @@
 Download assignments in a folder
 Run easymoss
 Get result
+
+
+depend:
+libarchive-any-perl
+libfile-basedir-perl
+libfile-find-rule-perl

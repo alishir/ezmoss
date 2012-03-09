@@ -1,7 +1,6 @@
 *~
 *.swp
 *.o
-moc_*
 *.zip
 *.rar
 *.7z

@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 #
 # Please read all the comments down to the line that says "TOP".
 # These comments are divided into three sections:
