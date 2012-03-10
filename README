@@ -1,9 +1,30 @@
-Download assignments in a folder
-Run easymoss
-Get result
+download assignments in a folder (e.g. pr01_downloaded_assignments)
+define assignment tempalte (e.g. pr01_tmp)
+run ezmoss
+get result
 
 
-depend:
+assignment template example:
+pr01_tmp\
+	java\				# folder name is the language that accepted by moss -l command
+		spring.java		# type of files related to language	
+	cc\					# cc for c++ projects
+		main.cpp		# .ccp and .h files related to c++ projects
+		hea.h
+	matlab\
+		mlp.m
+
+
+command example:
+./ezmoss -T ./pr01_tmp -d ./pr01_downloaded_assignments
+
+
+requirments:
 libarchive-any-perl
 libfile-basedir-perl
 libfile-find-rule-perl
+unrar
+
+
+Debian based OS:
+apt-get install libarchive-any-perl libfile-basedir-perl libfile-find-rule-perl unrar
