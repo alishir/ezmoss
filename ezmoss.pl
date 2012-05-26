@@ -14,6 +14,7 @@ use Cwd;
 my $tar = Archive::Tar->new;
 my $templateFileName;		# tar file, contain template structure of assignment
 my $templateDir;			# dir contain template structure of assignment
+my $baseFilesDir;			# dir contain base files
 my $assDir;					# directory of downloaded archived assignments
 my @tempFileList;
 my %langs;
@@ -22,7 +23,8 @@ my @errorAss;
 
 GetOptions( "t:s" => \$templateFileName,
 			"T:s" => \$templateDir,
-			"d:s" => \$assDir);
+			"d:s" => \$assDir,
+			"B:s" => \$baseFilesDir);
 
 
 if ($templateFileName)
@@ -71,6 +73,11 @@ else
 {
 	die "you should specify a template dir or template file ...\n";
 }
+
+# get list of basefiles
+my $bule = File::Find::Rule->new();
+$bule->file();
+my @bfList = $bule->in($baseFilesDir);
 
 print "=========== END of Template ==============\n" if $debug;
 
@@ -161,15 +168,24 @@ foreach my $f (@assFiles)
 # now repo is ready run moss command
 foreach my $lang (keys %langs)
 {
-	my @mosscmd = ("perl", "moss.pl", "-l", "$lang", "-d");
+	my @mosscmd = ("perl", "moss.pl");
+	foreach my $bf (@bfList)
+	{
+		push(@mosscmd, "-b");
+		push(@mosscmd, $bf);
+	}
+	push(@mosscmd, "-l");
+	push(@mosscmd, "$lang");
+	push(@mosscmd, "-d");
 	foreach my $ext (@{$langs{$lang}})
 	{
 		my @extsp = split(/\./, $ext);			# not reused :(
 		push(@mosscmd, "$repoDir*/$lang/*." . $extsp[-1]);
 	}
+	print join(' ', @mosscmd) if $debug;
 	my $res = `@mosscmd`;
 	my @ressp = split(/\n/, $res);
-	print "moss response for $lang: $ressp[-1]\n";
+	print "\nmoss response for $lang: $ressp[-1]\n";
 #	open(MOSS, @mosscmd) or die "Couldn't execute moss command: @mosscmd\n";		# why this command does not work?
 	@mosscmd = ();
 }
