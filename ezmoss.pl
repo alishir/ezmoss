@@ -111,6 +111,7 @@ foreach my $f (@assFiles)
 	my $ok = 0;
 	my @fnspt = split(/\//, $f);		# split file path
 	my $fn = $fnspt[-1];				# get the last part, file name
+	$fn =~ s/ /_/g;
 	my $extPath = $tmpDir . $fn;
 	my $repoPath = $repoDir . $fn;
 	print "extPath: $extPath\n";
