@@ -120,12 +120,18 @@ foreach my $f (@assFiles)
 
 	my $ft = File::MimeInfo->new();
 	my $fileType = $ft->mimetype($f);
-	print "$fileType\n" if $debug;
+	print "file type is: $fileType\n" if $debug;
 	if ($fileType =~ /rar$/)
 	{
 		print "Rar archive ...\n" if $debug;
 		my @rarcmd = ("unrar", "e", "-y", "$f", "$extPath");
 		$ok = system(@rarcmd);
+	}
+	elsif ($fileType =~ /x-7z-compressed$/)
+	{
+		print "7z archive ...\n" if $debug;
+		my @_7zcmd = ("7z", "x", "-y", "-o$extPath", "$f");
+		$ok = system(@_7zcmd);
 	}
 	else
 	{
